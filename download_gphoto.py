@@ -80,33 +80,34 @@ if __name__ == '__main__':
     CLIENT_SECRET = os.getenv('CLIENT_SECRET')
     API_KEY = os.getenv('API_KEY')
 
-    if CLIENT_SECRET is None or CLIENT_ID is None or CLIENT_SECRET == "" or CLIENT_ID == "":
-        print("Create Oauth Client ID --> https://gilesknap.github.io/gphotos-sync/main/tutorials/oauth2.html#client-id\nAnd  set the environment variable CLIENT_SECRET & CLIENT_ID")
-        exit()
+    print(API_KEY)
+    # if CLIENT_SECRET is None or CLIENT_ID is None or CLIENT_SECRET == "" or CLIENT_ID == "":
+    #     print("Create Oauth Client ID --> https://gilesknap.github.io/gphotos-sync/main/tutorials/oauth2.html#client-id\nAnd  set the environment variable CLIENT_SECRET & CLIENT_ID")
+    #     exit()
 
-    if REFRESH_TOKEN is None or REFRESH_TOKEN == "":
-        flow = InstalledAppFlow.from_client_secrets_file('client_secret.json', SCOPES)
-        cred = flow.run_local_server()
-        print("----\nYour refresh token is: \"{}\"\nAnd set the environment variable REFFREH_TOKEN\n----".format(cred.refresh_token))
-        exit()
+    # if REFRESH_TOKEN is None or REFRESH_TOKEN == "":
+    #     flow = InstalledAppFlow.from_client_secrets_file('client_secret.json', SCOPES)
+    #     cred = flow.run_local_server()
+    #     print("----\nYour refresh token is: \"{}\"\nAnd set the environment variable REFFREH_TOKEN\n----".format(cred.refresh_token))
+    #     exit()
 
-    if API_KEY is None or API_KEY == "":
-        print("Set the environment variable API_KEY")
-        exit()
+    # if API_KEY is None or API_KEY == "":
+    #     print("Set the environment variable API_KEY")
+    #     exit()
 
-    googleapi = GoogleAPI(REFRESH_TOKEN, CLIENT_ID, CLIENT_SECRET)
+    # googleapi = GoogleAPI(REFRESH_TOKEN, CLIENT_ID, CLIENT_SECRET)
     
-    # get all favorites photos
-    favorties_list = googleapi.get_all_items(googleapi.get_favorites)
+    # # get all favorites photos
+    # favorties_list = googleapi.get_all_items(googleapi.get_favorites)
 
-    # get list photos already uploaded on twitter
-    # MUST BE UPDATED MANUALLY, NO API AVAILABLE
-    base_album_id = googleapi.find_album_by_title('Twitter')["id"]
-    base_list = googleapi.get_all_items(googleapi.get_album_photos_by_id, albumId = base_album_id)
+    # # get list photos already uploaded on twitter
+    # # MUST BE UPDATED MANUALLY, NO API AVAILABLE
+    # base_album_id = googleapi.find_album_by_title('Twitter')["id"]
+    # base_list = googleapi.get_all_items(googleapi.get_album_photos_by_id, albumId = base_album_id)
 
-    # get random photo and download it
-    reduced_list = [x for x in favorties_list if x not in base_list]
-    photo_to_download = random.choice(reduced_list)
+    # # get random photo and download it
+    # reduced_list = [x for x in favorties_list if x not in base_list]
+    # photo_to_download = random.choice(reduced_list)
 
-    googleapi.download_photo("photo.jpg", photo_to_download)
+    # googleapi.download_photo("photo.jpg", photo_to_download)
 
