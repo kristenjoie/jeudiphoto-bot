@@ -80,17 +80,17 @@ if __name__ == '__main__':
     CLIENT_SECRET = os.getenv('CLIENT_SECRET')
     API_KEY = os.getenv('API_KEY')
 
-    if CLIENT_SECRET is None or CLIENT_ID is None:
+    if CLIENT_SECRET is None or CLIENT_ID is None or CLIENT_SECRET == "" or CLIENT_ID == "":
         print("Create Oauth Client ID --> https://gilesknap.github.io/gphotos-sync/main/tutorials/oauth2.html#client-id\nAnd  set the environment variable CLIENT_SECRET & CLIENT_ID")
         exit()
 
-    if REFRESH_TOKEN is None:
+    if REFRESH_TOKEN is None or REFRESH_TOKEN == "":
         flow = InstalledAppFlow.from_client_secrets_file('client_secret.json', SCOPES)
         cred = flow.run_local_server()
         print("----\nYour refresh token is: \"{}\"\nAnd set the environment variable REFFREH_TOKEN\n----".format(cred.refresh_token))
         exit()
 
-    if API_KEY is None:
+    if API_KEY is None or API_KEY == "":
         print("Set the environment variable API_KEY")
         exit()
 
