@@ -16,7 +16,7 @@ class GoogleAPI:
         self.authed_session = AuthorizedSession(credentials)
 
     def _request(self, method, url, data=None):
-        url = "{}&key={}".format(url, API_KEY)
+        url = "{}&key={}".format(url, GOOGLE_API_KEY)
         if method == 'GET':
             return self.authed_session.get(url)
         elif method == 'POST':
@@ -75,26 +75,26 @@ class GoogleAPI:
         return path
 
 if __name__ == '__main__':
-    REFRESH_TOKEN = os.getenv('REFRESH_TOKEN')
-    CLIENT_ID =  os.getenv('CLIENT_ID')
-    CLIENT_SECRET = os.getenv('CLIENT_SECRET')
-    API_KEY = os.getenv('API_KEY')
+    GOOGLE_REFRESH_TOKEN = os.getenv('GOOGLE_REFRESH_TOKEN')
+    GOOGLE_CLIENT_ID =  os.getenv('GOOGLE_CLIENT_ID')
+    GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
+    GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
-    if CLIENT_SECRET is None or CLIENT_ID is None or CLIENT_SECRET == "" or CLIENT_ID == "":
+    if GOOGLE_CLIENT_SECRET is None or GOOGLE_CLIENT_ID is None or GOOGLE_CLIENT_SECRET == "" or GOOGLE_CLIENT_ID == "":
         print("Create Oauth Client ID --> https://gilesknap.github.io/gphotos-sync/main/tutorials/oauth2.html#client-id\nAnd  set the environment variable CLIENT_SECRET & CLIENT_ID")
         exit()
 
-    if REFRESH_TOKEN is None or REFRESH_TOKEN == "":
+    if GOOGLE_REFRESH_TOKEN is None or GOOGLE_REFRESH_TOKEN == "":
         flow = InstalledAppFlow.from_client_secrets_file('client_secret.json', SCOPES)
         cred = flow.run_local_server()
         print("----\nYour refresh token is: \"{}\"\nAnd set the environment variable REFFREH_TOKEN\n----".format(cred.refresh_token))
         exit()
 
-    if API_KEY is None or API_KEY == "":
+    if GOOGLE_API_KEY is None or GOOGLE_API_KEY == "":
         print("Set the environment variable API_KEY")
         exit()
 
-    googleapi = GoogleAPI(REFRESH_TOKEN, CLIENT_ID, CLIENT_SECRET)
+    googleapi = GoogleAPI(GOOGLE_REFRESH_TOKEN, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET)
     
     # get all favorites photos
     favorties_list = googleapi.get_all_items(googleapi.get_favorites)

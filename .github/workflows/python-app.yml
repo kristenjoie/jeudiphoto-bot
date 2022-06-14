@@ -39,10 +39,10 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Run Script
       env:
-        CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-        CLIENT_ID: ${{ secrets.CLIENT_ID }}
-        REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
-        API_KEY: ${{ secrets.API_KEY }}
+        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+        GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
+        GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
       run: |
         python3 download_gphoto.py
     - name: Archive Downloaded photo
