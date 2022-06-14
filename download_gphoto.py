@@ -7,16 +7,17 @@ import random
 SCOPES = ['https://www.googleapis.com/auth/photoslibrary.readonly']
 
 class GoogleAPI:
-    def __init__(self, refresh_token, client_id, client_secret):
+    def __init__(self, refresh_token, client_id, client_secret, api_key):
         credentials = google.oauth2.credentials.Credentials(None,
                                                             refresh_token=refresh_token,
                                                             token_uri="https://oauth2.googleapis.com/token",
                                                             client_id=client_id,
                                                             client_secret=client_secret)
         self.authed_session = AuthorizedSession(credentials)
+        self.api_key = api_key
 
     def _request(self, method, url, data=None):
-        url = "{}&key={}".format(url, GOOGLE_API_KEY)
+        url = "{}&key={}".format(url, self.api_key)
         if method == 'GET':
             return self.authed_session.get(url)
         elif method == 'POST':
@@ -94,19 +95,13 @@ if __name__ == '__main__':
         print("Set the environment variable API_KEY")
         exit(1)
 
-    googleapi = GoogleAPI(GOOGLE_REFRESH_TOKEN, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET)
+    googleapi = GoogleAPI(GOOGLE_REFRESH_TOKEN, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_API_KEY)
     
     # get all favorites photos
     favorties_list = googleapi.get_all_items(googleapi.get_favorites)
 
-    # get list photos already uploaded on twitter
-    # MUST BE UPDATED MANUALLY, NO API AVAILABLE
-    base_album_id = googleapi.find_album_by_title('Twitter')["id"]
-    base_list = googleapi.get_all_items(googleapi.get_album_photos_by_id, albumId = base_album_id)
-
     # get random photo and download it
-    reduced_list = [x for x in favorties_list if x not in base_list]
-    photo_to_download = random.choice(reduced_list)
+    photo_to_download = random.choice(favorties_list)
 
     googleapi.download_photo("photo.jpg", photo_to_download)
 
