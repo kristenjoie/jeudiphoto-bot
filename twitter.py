@@ -2,7 +2,7 @@ from tweepy import Client, API, OAuthHandler
 import os
 import sys
 
-class Twitter:
+class TwitterAPI:
     def __init__(self, consumer_key, consumer_secret, access_token, access_token_secret):
         self.client = Client(consumer_key=consumer_key, consumer_secret=consumer_secret, access_token=access_token, access_token_secret=access_token_secret)
         
@@ -47,7 +47,7 @@ if __name__ == "__main__":
         print('You must add to the command the tweet text, you can add an user to tag.\nFor example: python3 twitter.py "My tweet text" friend_tag')
         exit(1)
 
-    twitter = Twitter(consumer_key, consumer_secret, access_token, access_token_secret)
+    twitter = TwitterAPI(consumer_key, consumer_secret, access_token, access_token_secret)
 
     current_id = twitter.get_current_user_id()
     last_tweet_date = twitter.get_user_last_tweet_date(current_id)
