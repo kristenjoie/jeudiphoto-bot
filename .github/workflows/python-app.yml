@@ -6,7 +6,7 @@ name: Python application
 on: 
   workflow_dispatch:
   schedule:
-    - cron: '50 21 * * 4'
+    - cron: '50 17 * * 4'
   push:
     branches: [ "main" ]
 
