@@ -86,12 +86,13 @@ else:
     googleapi.download_photo(args.photo_path, photo_to_download)
 
     # upload  part
+    tagged_user = None
     if args.user_tag:
         print("Getting User Tag...")
         tagged_user = twitter.get_user_id(args.user_tag)
     if os.path.exists(args.photo_path):
         print("Tweeting Photo...")
-        twitter.tweet_photo(args.tweet_text, args.photo_path, tagged_user)
+        twitter.tweet_photo(args.tweet_text, args.photo_path, tagged_user, alt_text="Filename: {}".format(photo_to_download["filename"]))
     else :
         print("File '{}' does not exits".format(args.photo_path))
         exit(1)

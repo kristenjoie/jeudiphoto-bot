@@ -23,9 +23,11 @@ class TwitterAPI:
         r = self.client.get_tweet(r.meta["newest_id"], tweet_fields=["created_at"], user_auth=True)
         return r.data.created_at
     
-    def tweet_photo(self, text, filepath, media_tagged_user_ids=None):
+    def tweet_photo(self, text, filepath, media_tagged_user_ids=None, alt_text=None):
         r = self.api.simple_upload(filepath)
         media_id = r.media_id
+        if alt_text is not None:
+            r = self.api.create_media_metadata(media_id, alt_text)
         media_tagged_user_ids = None if media_tagged_user_ids is None else [media_tagged_user_ids]
         r = self.client.create_tweet(media_ids=[media_id], text=text, media_tagged_user_ids=media_tagged_user_ids)
         return r
