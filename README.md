@@ -27,7 +27,7 @@ pip3 install -r requirements.txt
 
 The main script will:
 - get date of the last tweet of the user.  
---> if the date is the same as today, nothing will be done
+--> if option `--check_date` and the date is the same as today, nothing will be done
 - download a random photo from your favorites of your Google Photo library.  
 If you use `--exclude_album` it will reduce the favorite list
 - tweet the photo with the text you set and tag an user you option `user_tag`
@@ -37,6 +37,7 @@ Run command:
 python3 main.py "Tweet text" [--exclude_album 'private'] [--user_tag nasa] [--photo_path photo.jpg]
 ```
 With arguments:
+- `--check_date`: check date to not tweet if alreay done for the current day
 - `--exclude_album`: name of the album to exclude
 - `--user_tag`: name of the user to tag in the tweet
 - `--photo_path`: path of the photo. By default "photo.jpg"

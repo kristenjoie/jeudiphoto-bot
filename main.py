@@ -11,7 +11,8 @@ from twitter import TwitterAPI
 # args parse
 parser = argparse.ArgumentParser()
 parser.add_argument("tweet_text", type=str,
-                    help="Text to tweet")
+                    help="Text to tweet"),
+parser.add_argument("--check_date", action='store_true'),
 parser.add_argument("--exclude_album", type=str,
                     help="Name of the albums to exclude photo seletion")
 parser.add_argument("--user_tag", type=str,
@@ -55,7 +56,7 @@ last_tweet_date = str(last_tweet_date).split(" ")[0]
 last_tweet_time = time.strptime(last_tweet_date, "%Y-%m-%d")
 current_time = time.strptime(time.strftime('%Y-%m-%d', time.localtime()), "%Y-%m-%d")
 
-if last_tweet_time == current_time: 
+if args.check_date and last_tweet_time == current_time: 
     print('The date of the last tweet is the same as today. So nothing to do !!!')
     exit()
 else:
