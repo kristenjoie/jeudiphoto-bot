@@ -42,3 +42,7 @@ jobs:
         USER: ${{ secrets.USER }}
       run: |
         python3 main.py "$TXT" --user_tag "$USER" --exclude_album 'Twitter'
+    - uses: gautamkrishnar/keepalive-workflow@v1 # using the workflow with default settings
+      with:
+          committer_username: Kristen Joie
+          committer_email: kjoie.dev@gmail.com
