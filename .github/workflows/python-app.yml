@@ -46,3 +46,4 @@ jobs:
       with:
           committer_username: Kristen Joie
           committer_email: kjoie.dev@gmail.com
+          gh_token: ${{ secrets.GH_TOKEN }}
