@@ -19,9 +19,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@main
     - name: Set up Python 3.10
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@main
       with:
         python-version: "3.10"
     - name: Install dependencies
@@ -42,7 +42,7 @@ jobs:
         USER: ${{ secrets.USER }}
       run: |
         python3 main.py "$TXT" --user_tag "$USER" --exclude_album 'Twitter'
-    - uses: gautamkrishnar/keepalive-workflow@v1 # using the workflow with default settings
+    - uses: gautamkrishnar/keepalive-workflow@master # using the workflow with default settings
       with:
           committer_username: Kristen Joie
           committer_email: kjoie.dev@gmail.com
