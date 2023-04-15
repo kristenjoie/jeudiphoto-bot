@@ -48,52 +48,40 @@ if GOOGLE_REFRESH_TOKEN is None or GOOGLE_REFRESH_TOKEN == "" \
 twitter = TwitterAPI(TWITTER_API_KEY, TWITTER_API_KEY_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
 googleapi = GoogleAPI(GOOGLE_REFRESH_TOKEN, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_API_KEY)
 
-# check last tweet date
-current_id = twitter.get_current_user_id()
-last_tweet_date = twitter.get_user_last_tweet_date(current_id)
-
-last_tweet_date = str(last_tweet_date).split(" ")[0]
-last_tweet_time = time.strptime(last_tweet_date, "%Y-%m-%d")
-current_time = time.strptime(time.strftime('%Y-%m-%d', time.localtime()), "%Y-%m-%d")
-
-if args.check_date and last_tweet_time == current_time: 
-    print('The date of the last tweet is the same as today. So nothing to do !!!')
-    exit()
+# get list photo
+print("Getting List Photo...")
+favorties_list = googleapi.get_all_items(googleapi.get_favorites)
+if args.exclude_album:
+    print("Getting Excluded List Photo...")
+    base_album_id = googleapi.find_album_by_title(args.exclude_album)["id"]
+    base_list = googleapi.get_all_items(googleapi.get_album_photos_by_id, albumId = base_album_id)
+    # exclued photo
+    list_to_use = favorties_list.copy()
+    for x in base_list :
+        for y in favorties_list :
+            if x["id"] == y["id"]:
+                list_to_use.remove(y)
+                break
 else:
-    # get list photo
-    print("Getting List Photo...")
-    favorties_list = googleapi.get_all_items(googleapi.get_favorites)
-    if args.exclude_album:
-        print("Getting Excluded List Photo...")
-        base_album_id = googleapi.find_album_by_title(args.exclude_album)["id"]
-        base_list = googleapi.get_all_items(googleapi.get_album_photos_by_id, albumId = base_album_id)
-        # exclued photo
-        list_to_use = favorties_list.copy()
-        for x in base_list :
-            for y in favorties_list :
-                if x["id"] == y["id"]:
-                    list_to_use.remove(y)
-                    break
-    else:
-        list_to_use = favorties_list
-    
-    if list_to_use == []:
-        print('Not anymore photo to share')
-        exit()
-    photo_to_download = random.choice(list_to_use)
-    
-    # download random photo
-    print("Downloading Photo...")
-    googleapi.download_photo(args.photo_path, photo_to_download)
+    list_to_use = favorties_list
 
-    # upload  part
-    tagged_user = None
-    if args.user_tag:
-        print("Getting User Tag...")
-        tagged_user = twitter.get_user_id(args.user_tag)
-    if os.path.exists(args.photo_path):
-        print("Tweeting Photo...")
-        twitter.tweet_photo(args.tweet_text, args.photo_path, tagged_user, alt_text="{}".format(photo_to_download["filename"]))
-    else :
-        print("File '{}' does not exits".format(args.photo_path))
-        exit(1)
+if list_to_use == []:
+    print('Not anymore photo to share')
+    exit()
+photo_to_download = random.choice(list_to_use)
+
+# download random photo
+print("Downloading Photo...")
+googleapi.download_photo(args.photo_path, photo_to_download)
+
+# upload  part
+tagged_user = None
+if args.user_tag:
+    print("Getting User Tag...")
+    tagged_user = twitter.get_user_id(args.user_tag)
+if os.path.exists(args.photo_path):
+    print("Tweeting Photo...")
+    twitter.tweet_photo(args.tweet_text, args.photo_path, tagged_user, alt_text="{}".format(photo_to_download["filename"]))
+else :
+    print("File '{}' does not exits".format(args.photo_path))
+    exit(1)

@@ -14,8 +14,8 @@ class TwitterAPI:
         r = self.client.get_me()
         return r.data.id 
 
-    def get_user_id(self, usename):
-        r = self.client.get_users(usernames=["kr1s1o"], user_auth=True)
+    def get_user_id(self, username):
+        r = self.client.get_users(usernames=username, user_auth=True)
         return r.data[0].id
 
     def get_user_last_tweet_date(self, user_id):
@@ -52,8 +52,6 @@ if __name__ == "__main__":
     twitter = TwitterAPI(consumer_key, consumer_secret, access_token, access_token_secret)
 
     current_id = twitter.get_current_user_id()
-    last_tweet_date = twitter.get_user_last_tweet_date(current_id)
-    print("last tweet date : {}".format(last_tweet_date))
 
     # upload  part
     tagged_user = None
